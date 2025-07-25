@@ -1,9 +1,14 @@
 package net.carm.chcarrefour;
 
+import net.carm.chcarrefour.commands.LoreCommand;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static net.minecraft.server.command.CommandManager.*;
 
 public class Chcarrefour implements ModInitializer {
 	public static final String MOD_ID = "chcarrefour";
@@ -19,6 +24,14 @@ public class Chcarrefour implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello les ch'timis !");
+
+		ClientCommandRegistrationCallback.EVENT.register(LoreCommand::register);
+
+//		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("readShop")
+//				.executes(context -> {
+//					context.getSource().sendFeedback(() -> Text.literal("Called /foo with no arguments"), false);
+//					ReadShopCommand.analyseShop();
+//					return 1;
+//				})));
 	}
 }
