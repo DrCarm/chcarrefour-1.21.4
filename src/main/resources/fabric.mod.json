@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "chcarrefour",
+	"version": "${version}",
+	"name": "chcarrefour",
+	"description": "Permets de lire et de stocker les prix d'achats / vente des items suir le Ch'ti-SMP",
+	"authors": [
+		"Carm"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/chcarrefour/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.carm.chcarrefour.Chcarrefour"
+		],
+		"client": [
+			"net.carm.chcarrefour.ChcarrefourClient"
+		],
+		"fabric-datagen": [
+			"net.carm.chcarrefour.ChcarrefourDataGenerator"
+		]
+	},
+	"mixins": [
+		"chcarrefour.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
