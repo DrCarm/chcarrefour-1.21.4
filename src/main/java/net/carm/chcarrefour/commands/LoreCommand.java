@@ -1,5 +1,6 @@
 package net.carm.chcarrefour.commands;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -19,6 +20,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class LoreCommand {
@@ -66,6 +70,7 @@ public class LoreCommand {
         ScreenHandler handler = screen.getScreenHandler();
         StringBuilder output = new StringBuilder();
 
+        client.player.sendMessage(Text.literal("Il y a " + handler.slots.size() + " slots sur cet écran").formatted(Formatting.GREEN), false);
         for (Slot slot : handler.slots) {
             ItemStack stack = slot.getStack();
             if (!stack.isEmpty()) {
@@ -75,7 +80,7 @@ public class LoreCommand {
                 List<Text> loreList = stack.getOrDefault(DataComponentTypes.LORE, LoreComponent.DEFAULT).styledLines();
 
 
-                output.append("Item: ").append(itemName).append("\n");
+                output.append("Item: ").append(itemName).append(slot.id).append("\n");
 
                 for (int i = 0; i < loreList.size(); i++) {
                     Text text = loreList.get(i);
@@ -96,7 +101,11 @@ public class LoreCommand {
 
     private static void writeToFile(String data) {
         try {
-            Path path = MinecraftClient.getInstance().runDirectory.toPath().resolve("lore_output.txt");
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+            String suffix = date.toString() + "--" + time.toString().substring(0, 8);
+            suffix = suffix.replace(':', '-');
+            Path path = MinecraftClient.getInstance().runDirectory.toPath().resolve("chcarrefour/lore_output" + suffix + ".txt");
             Files.writeString(path, data, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
